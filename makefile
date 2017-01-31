@@ -1,6 +1,3 @@
-# Makefile for building demo applications.
-# by Brian Fraser
-
 # Edit this file to compile extra C files into their own programs.
 #TARGETS= sum_on_thread sum_on_many_threads sum_malloc
 TARGETS= test
