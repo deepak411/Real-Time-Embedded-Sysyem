@@ -1,0 +1,58 @@
+Note : 1. Update the "pinmux.c" file in directory /zephyr-project/boards/x86/galileo.
+          Change the first pinmux setting in struture "_galileo_path" as follows:
+          To use GPIO3 as output set EXP1(0,1 pin) to (PIN_LOW,PIN_LOW)       // currently it is (PIN_HIGH, PIN_LOW)  
+       2. Change the sampling frequency for fatser stablization of kalman filter output. The thread has default period of 500ms, so sampling frequency is 2 Hz.
+	  For faster stabilization of Output values of Kalman Filter, the sleep time/period can be changed from the following macros :
+		#define SLEEPTIMEB 500 (defalut 500)
+		#define SLEEPTIMEC 500 (defalut 500)
+
+There are two warnings in zephyr-source code in file pinmux.c, which are present becuase of depricated APIs among different zephyr versions.
+
+Steps for compilation
+Note : place the source file/Makefile in proper zephyr-project structure
+
+1. do make all to build zephyr.strip file (image file including zephyr kernel and the program) 
+2. copy the zephyr.strip file from outdir/galileo/ to memory card
+3. boot the galileo board using the memory card
+
+Notes:
+
+The ultrasonic sensor has the following connections:
+
+1. pin 0(GPIO) : HC-SR04  trigger
+2. pin 1(GPIO) : HC-SR04  echo
+3. the pulse width for the trigger pin is 1ms
+4. the thread(THREAD B) handling ultrasonic sensor is periodic with period = 500ms
+
+ 
+The MPU 6050 has the following connections:
+
+1. pin 18(GPIO) : MPU6050  SDA
+2. pin 19(GPIO) : MPU6050  SCL
+4. the thread(THREAD C) handling MPU6050 sensor is periodic with period = 500ms
+
+
+UART output : (supported baud rate is 115200)
+run the following command on the terminal to observe the output
+1. sudo screen /dev/ttyUSB0 115200 (might need to install "screen" if not present, check for the device name(default ttyUSB0))
+
+Output:
+
+distance values are in centimeters
+velocity values are in rad/sec
+acceleration values are in m/sec^2
+Orientation,Roll,Pitch are in degrees
+
+Following sample output should be observed on te UART terminal:
+
+
+distance value is ...:14
+Roll ========= 26.034553 Pitch ======== -124.179370
+Angular Velocity in X direction is==== 0.777004
+Angular Velocity in Y direction is====  is 0.458182
+Angular Velocity in Z direction is====  is -0.526396
+Acceleration in X direction is==== 0.777004
+Acceleration in Y direction is==== 0.458182
+Acceleration in Z direction is==== -0.526396
+Orientation in X direction is=== 0.633747
+Orientation in Y direction is=== 0.374616
