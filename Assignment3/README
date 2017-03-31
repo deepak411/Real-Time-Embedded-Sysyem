@@ -1,0 +1,1 @@
+Contains the implementation for EDF(Earliest Deadline First), RM(Rate Monotonic) and DM(Deadline Monotonic) scheduling algorithms
