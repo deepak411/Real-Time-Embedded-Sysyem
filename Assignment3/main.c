@@ -1,3 +1,10 @@
+/*
+* Created by Deepak and Ankush on 3/31/2017.
+* All rights reserved
+* Contains the implementation for EDF(Earliest Deadline First), RM(Rate Monotonic) and DM(Deadline Monotonic) scheduling algorithms
+*/
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -55,6 +62,7 @@ void EDF_check(struct taskBody *tasks,int num_task , int i){
 		l+=tasks[i].wcet;
 	}
 	int newl=0;
+	/* Calculate the busy period */
 	while(1){
 		newl=0;
 		for(int i=0;i<num_task;i++){
@@ -69,6 +77,7 @@ void EDF_check(struct taskBody *tasks,int num_task , int i){
 			l=newl;			
 		}
 	}
+	/* Check for the critical instances upto the busy period */
 	for(int j=0;j<num_task;j++){
 		int init_d=tasks[j].deadline;
 		while(init_d<=l){
@@ -189,4 +198,4 @@ int main(int argc, char *argv[])
 	fclose(fp);		// close the file handler
 
 	return 0;
-}		// End of main program
+}	// End of main program
